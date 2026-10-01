@@ -9,10 +9,10 @@ namespace Zadacha
     {            
 
         static string filepath = "Data.txt";
+        static List<Task> tasks = new List<Task>();
 
         static void Main(string[] args)
         {
-            List<Task> tasks = new List<Task>();
             bool running;
 
             while (true)
@@ -47,7 +47,7 @@ namespace Zadacha
                         Console.WriteLine("Програмата приключи работа.");
                         return;
                     default:
-                        Console.WriteLine("Невалиден избор. Моля, опитайте отново.");
+                        Console.WriteLine("Невалиден избор.");
                         Pause();
                         break;
                 }
@@ -70,15 +70,6 @@ namespace Zadacha
 
             tasks.Add(new Task(title, description, deadline));
 
-            string[] linesToSave = 
-            {
-                $"Заглавие: {title}",
-                $"Описание: {description}",
-                $"Краен срок: {deadline}",
-                "-----------------------"
-            };
-
-            File.AppendAllLines("Data.txt", linesToSave);
             Console.WriteLine("\nЗадачата беше добавена успешно!");
             Pause();
         }
@@ -175,5 +166,6 @@ namespace Zadacha
             Console.WriteLine("\nНатиснете произволен клавиш, за да продължите...");
             Console.ReadKey();
         }
+
     }
 }
