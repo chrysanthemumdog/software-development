@@ -10,6 +10,7 @@ namespace Zadacha
 
         static string filepath = "Data.txt";
         static List<Task> tasks = new List<Task>();
+        private static int id;
 
         static void Main(string[] args)
         {
@@ -68,10 +69,16 @@ namespace Zadacha
             Console.Write("Въведете краен срок (пр. 2026-06-30): ");
             string deadline = Console.ReadLine();
 
-            tasks.Add(new Task(title, description, deadline));
+            try
+            {
+                Task newTask = new Task(id, title, description, deadline);
 
-            Console.WriteLine("\nЗадачата беше добавена успешно!");
-            Pause();
+                tasks.Add(newTask);
+                id++;
+            }
+            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+
+
         }
 
         static void ViewTasks(List<Task> tasks)
