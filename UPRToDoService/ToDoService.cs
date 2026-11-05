@@ -2,40 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace UPRToDoService
 {
     internal class ToDoService
     {
-        private readonly static List<Tasks> tasks = new List<Tasks>();
-        private static int nextId = 1;
+       // private readonly static List<ToDoItem> ToDoItems = new List<ToDoItem>();
+        //private static int nextId = 1;
 
+            private readonly ToDoStorage storage;
+            public ToDoService(ToDoStorage storage)
+            {
+                this.storage = storage;
+            }
 
-
-        //Tasks deleteTask = FindById(id);
-
-        //tasks.Remove(deleteTask);
-
-
-
-
-        //Tasks completedTask = FindById(id);
-        //completedTask.Completed();
-
-        public List<Tasks> GetAll()
+        public IReadOnlyList<ToDoItem> GetAll()
         {
-            return tasks;
+            return storage.Todos;
         }
 
+        //ToDoItem deleteToDoItem = FindById(id);
 
-        public Tasks FindById(int id)
+        //ToDoItems.Remove(deleteToDoItem);
+
+        //ToDoItem completedToDoItem = FindById(id);
+        //completedToDoItem.Completed();
+
+        //public List<ToDoItem> GetAll()
+        //{
+        //    return storage;
+        //}
+
+        public ToDoItem FindById(int id)
         {
-            foreach (Tasks Tasks in tasks)
+            foreach (ToDoItem ToDoItems in storage.Todos)
             {
-                if (Tasks.Id == id)
+                if (ToDoItems.Id == id)
                 {
-                    return Tasks;
+                    return ToDoItems;
                 }
 
             }
@@ -47,28 +52,28 @@ namespace UPRToDoService
         {
 
 
-            Tasks Tasks = new Tasks(nextId, t, d, end);
-            tasks.Add(Tasks);
-            nextId++;
+            ToDoItem ToDoItems = new ToDoItem(storage.NextId, t, d, end);
+            storage.Todos.Add(ToDoItems);
+            storage.NextId++;
 
         }
 
         public void Complete(int id)
         {
-            Tasks completedTask = FindById(id);
-            if (completedTask == null)
+            ToDoItem completedToDoItem = FindById(id);
+            if (completedToDoItem == null)
             {
                 throw new ArgumentException("Задачата не съществува. ");
             }
-            completedTask.Completed();
+            completedToDoItem.Completed();
         }
 
         public void Delete(int id)
         {
-            Tasks deleteTask = FindById(id);
-            if (deleteTask == null)
+            ToDoItem deleteToDoItem = FindById(id);
+            if (deleteToDoItem == null)
                 throw new ArgumentException("Задачата не съществува. ");
-            tasks.Remove(deleteTask);
+            storage.Todos.Remove(deleteToDoItem);
         }
     }
 }

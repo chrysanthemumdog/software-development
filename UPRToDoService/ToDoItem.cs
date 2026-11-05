@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace UPRToDoService
 {
-    public class Tasks
+    public class ToDoItem
     {
             private string title;
             private DateTime dueDate;
@@ -54,7 +49,7 @@ namespace UPRToDoService
                 }
             }
 
-            public Tasks(int id, string title, string description, DateTime dueDate)
+            public ToDoItem(int id, string title, string description, DateTime dueDate)
             {
                 if (id <= 0)
                     throw new ArgumentOutOfRangeException(nameof(id), "Id трябва да е положително число");

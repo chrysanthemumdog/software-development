@@ -1,26 +1,19 @@
-﻿using System.Threading.Tasks;
-
-namespace UPRToDoService
+﻿namespace UPRToDoService
 {
     internal class Program
     {
-        static ToDoService service = new ToDoService();
+
 
         static void Main(string[] args)
-        {
+        {        
+            ToDoStorage storage = new ToDoStorage();
+            ToDoService service = new ToDoService(storage);
             // Program program = new Program();
             while (true)
             {
-                Console.WriteLine();
-                Console.WriteLine("======= TODO MANAGER ========");
-                Console.WriteLine("1. Добави задача");
-                Console.WriteLine("2. Покажи задачи");
-                Console.WriteLine("3. Маркирай задача като изпълнена");
-                Console.WriteLine("4. Изтрий задача");
-                Console.WriteLine("x. Изход");
 
-                Console.WriteLine();
-                Console.Write("Избор: ");
+                Menu();
+
                 string choice = Console.ReadLine();
                 try
                 {
@@ -28,22 +21,22 @@ namespace UPRToDoService
                     {
                         case "1":
                             {
-                                AddTodo(); Console.ReadLine();
+                                AddTodo(service); Console.ReadLine();
                                 break;
                             }
                         case "2":
                             {
-                                ListAllTodos(); Console.ReadLine();
+                                ListAllTodos(service); Console.ReadLine();
                                 break;
                             }
                         case "3":
                             {
-                                CompleteTodo(); Console.ReadLine();
+                                CompleteTodo(service); Console.ReadLine();
                                 break;
                             }
                         case "4":
                             {
-                                DeleteTodo(); Console.ReadLine();
+                                DeleteTodo(service); Console.ReadLine();
                                 break;
                             }
                         case "5":
@@ -71,12 +64,12 @@ namespace UPRToDoService
             }
         }
 
-        private static void DeleteTodo()
+        private static void DeleteTodo(ToDoService service)
         {
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine("=====  Изтрий задача =======\n");
-            ListAllTodos();
+            ListAllTodos(service);
 
             Console.Write("Избери Id: ");
             int id;
@@ -90,12 +83,12 @@ namespace UPRToDoService
             Console.WriteLine("Задачата е изтрита.");
         }
 
-        private static void CompleteTodo()
+        private static void CompleteTodo(ToDoService service)
         {
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine("=====  Маркирай задача като завършена =======\n");
-            ListAllTodos();
+            ListAllTodos(service);
 
             Console.Write("Избери Id: ");
             int id;
@@ -111,28 +104,28 @@ namespace UPRToDoService
 
         }
 
-        private static void ListAllTodos()
+        private static void ListAllTodos(ToDoService service)
         {
             
         
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine("===== Всички задачи  =======");
-            var tasks = service.GetAll();
-            if (tasks.Count == 0)
+            var ToDoItems = service.GetAll();
+            if (ToDoItems.Count == 0)
             {
                 Console.WriteLine("Няма въведени задачи");
             }
             else
             {
-                foreach (Tasks todoItem in tasks)
+                foreach (ToDoItem todoItem in ToDoItems)
                 {
                     Console.WriteLine($"{todoItem}");
                 }
             }
         }
 
-        private static void AddTodo()
+        private static void AddTodo(ToDoService service)
         {
             Console.Clear();
             Console.WriteLine("=====  Добавяне на задача =======");
@@ -155,6 +148,21 @@ namespace UPRToDoService
             service.Add(title, description, dueDate);
 
             Console.WriteLine("Задачата е добавена.");
+
+        }            
+        static void Menu()
+        {
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine("======= TODO MANAGER ========");
+                Console.WriteLine("1. Добави задача");
+                Console.WriteLine("2. Покажи задачи");
+                Console.WriteLine("3. Маркирай задача като изпълнена");
+                Console.WriteLine("4. Изтрий задача");
+                Console.WriteLine("x. Изход");
+
+                Console.WriteLine();
+                Console.Write("Избор");
         }
     }
 }
